@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/kernelVersion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="one two three"
+        android:textColor="#000000"
+        android:textSize="@dimen/text_size"
+        android:background="@drawable/round"/>
+    <Button
+        android:id="@+id/startImGui"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="开启"
+        android:textSize="@dimen/text_size"
+        android:background="@drawable/round"
+        />
+
+</LinearLayout>
