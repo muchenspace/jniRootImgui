@@ -1,6 +1,8 @@
 # Android_Native_Surface
-[´ËÏîÄ¿»ùÓÚ ImGuiJniRoot](https://github.com/PShocker/ImGuiJniRoot)
+[æ­¤é¡¹ç›®åŸºäº ImGuiJniRoot](https://github.com/PShocker/ImGuiJniRoot)
 
-## ½éÉÜ
-Ê¹ÓÃWindowManager´´½¨ÁËÒ»¸öĞü¸¡µÄimgui
+## ä»‹ç»
+ä½¿ç”¨WindowManageråˆ›å»ºäº†ä¸€ä¸ªæ‚¬æµ®çš„imgui
 <br>
+###æ³¨
+æœ¬é¡¹ç›®ä½¿ç”¨äº†libsuåº“ï¼Œéœ€è¦rootæ‰å¯ä½¿ç”¨
