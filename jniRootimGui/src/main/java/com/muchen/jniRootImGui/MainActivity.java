@@ -1,9 +1,11 @@
 package com.muchen.jniRootImGui;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.PixelFormat;
@@ -14,9 +16,11 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.muchen.jniRootImGui.AIDLService.AIDLService;
 import com.muchen.jniRootImGui.imguiView.ImGuiView;
+import com.muchen.jniRootImGui.util.STools;
 import com.muchen.jniRootImGui.util.permissionUtil;
 import com.topjohnwu.superuser.Shell;
 import com.topjohnwu.superuser.ipc.RootService;
@@ -120,7 +124,32 @@ public class MainActivity extends AppCompatActivity
                 Log.d("muchen","成功获取root");
             }
         });
-
+        if(Build.VERSION.SDK_INT >= 34)
+        {
+            if(!isInit)
+            {
+                if(!STools.isDebug())
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle("安卓14").setMessage("检测到你是安卓14，请确定以适配本应用(会重启)").setPositiveButton("确定", new DialogInterface.OnClickListener()
+                    {
+                        public void onClick(DialogInterface dialog, int id)
+                        {
+                            Log.d("muchen","确定");
+                            Shell.cmd("resetprop ro.debuggable 1").exec();
+                            Shell.cmd("am restart || killall system_server").exec();
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+                else
+                {
+                    Shell.cmd("am compat disable BLOCK_UNTRUSTED_TOUCHES com.muchen.jniRootImGui").exec();
+                    Toast.makeText(this,"成功适配安卓14",Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
         if(!isInit)
         {
             permissionUtil permission = new permissionUtil(this);
@@ -128,7 +157,6 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, AIDLService.class);
             RootService.bind(intent, new AIDLConnection());
         }
-
         binding.kernelVersion.setText("内核版本\n"+System.getProperty("os.version"));
         binding.startImGui.setOnClickListener(v -> {addFullView();});
         windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
