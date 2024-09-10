@@ -53,38 +53,13 @@ public class MainActivity extends AppCompatActivity
 //回调
 
 
-    public  int getLayoutType()
-    {
-        int LAYOUT_FLAG;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-        {
-            LAYOUT_FLAG = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
-        }
-        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-        {
-            LAYOUT_FLAG = WindowManager.LayoutParams.TYPE_PHONE;
-        }
-        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
-            LAYOUT_FLAG = WindowManager.LayoutParams.TYPE_PHONE;
-        }
-        else
-        {
-            LAYOUT_FLAG = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
-        }
-        return LAYOUT_FLAG;
-    }//根据版本选择窗口类型
 
 
     protected void addFullView()//把imguiview添加进屏幕
     {
 //        gl2JNIView = new GL2JNIView(this);
         ImGuiView imGuiView=new ImGuiView(this);
-        params = new WindowManager.LayoutParams(
-                getLayoutType(),
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
-                        | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                PixelFormat.TRANSLUCENT);//窗口不获得焦点，不接受触摸事件，不拦截触摸事件，全屏显示
+        params = new WindowManager.LayoutParams(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_FULLSCREEN, PixelFormat.TRANSLUCENT);//窗口不获得焦点，不接受触摸事件，不拦截触摸事件，全屏显示
         params.gravity = Gravity.LEFT | Gravity.TOP;		// 调整悬浮窗显示的停靠位置为左侧置顶
 
         params.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|View.SYSTEM_UI_FLAG_FULLSCREEN |
@@ -102,7 +77,10 @@ public class MainActivity extends AppCompatActivity
         {
             params.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES ;
         }//处理刘海
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+        {
+            params.alpha = 0.5f;
+        }
         windowManager.addView(imGuiView, params);//把imGuiView添加进屏幕
     }
 
